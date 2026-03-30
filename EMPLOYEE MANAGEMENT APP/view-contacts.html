@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>View Employees</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-content input {
+            margin: 5px 0;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <h2 style="color: aliceblue;">Employee Hub</h2>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="new-contact.html">New Contact</a></li>
+        <li><a href="view-contacts.html">View Contacts</a></li>
+    </ul>
+</nav>
+
+<!-- CONTENT -->
+<section class="container">
+    <h1 style="color: aliceblue;">All Employees</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Department</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+</section>
+
+<!-- EDIT MODAL -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <h2>Edit Employee</h2>
+
+        <input type="text" id="editName" placeholder="Full Name">
+        <input type="email" id="editEmail" placeholder="Email">
+        <input type="text" id="editPhone" placeholder="Phone">
+        <input type="text" id="editDept" placeholder="Department">
+        <input type="text" id="editPos" placeholder="Position">
+
+        <button onclick="saveEdit()">Save Changes</button>
+        <button onclick="closeModal()">Cancel</button>
+    </div>
+</div>
+
+<script>
+let currentIndex = null;
+
+// LOAD EMPLOYEES
+let tableBody = document.getElementById("tableBody");
+let employees = JSON.parse(localStorage.getItem("employees")) || [];
+
+employees.forEach((emp, index) => {
+    let row = `
+        <tr>
+            <td>${emp.name}</td>
+            <td>${emp.email}</td>
+            <td>${emp.phone}</td>
+            <td>${emp.department}</td>
+            <td>
+                <button onclick="details(${index})">Details</button>
+                <button onclick="edit(${index})">Edit</button>
+                <button onclick="removeEmp(${index})">Delete</button>
+            </td>
+        </tr>
+    `;
+    tableBody.innerHTML += row;
+});
+
+// DETAILS
+function details(index) {
+    let emp = employees[index];
+    alert(
+        "Name: " + emp.name + "\n" +
+        "Email: " + emp.email + "\n" +
+        "Phone: " + emp.phone + "\n" +
+        "Department: " + emp.department + "\n" +
+        "Position: " + emp.position
+    );
+}
+
+// OPEN EDIT MODAL
+function edit(index) {
+    let emp = employees[index];
+
+    currentIndex = index;
+
+    document.getElementById("editName").value = emp.name;
+    document.getElementById("editEmail").value = emp.email;
+    document.getElementById("editPhone").value = emp.phone;
+    document.getElementById("editDept").value = emp.department;
+    document.getElementById("editPos").value = emp.position;
+
+    document.getElementById("editModal").style.display = "flex";
+}
+
+// SAVE EDIT
+function saveEdit() {
+    employees[currentIndex] = {
+        name: document.getElementById("editName").value,
+        email: document.getElementById("editEmail").value,
+        phone: document.getElementById("editPhone").value,
+        department: document.getElementById("editDept").value,
+        position: document.getElementById("editPos").value
+    };
+
+    localStorage.setItem("employees", JSON.stringify(employees));
+
+    closeModal();
+    location.reload();
+}
+
+// CLOSE MODAL
+function closeModal() {
+    document.getElementById("editModal").style.display = "none";
+}
+
+// DELETE
+function removeEmp(index) {
+    if (confirm("Are you sure you want to delete?")) {
+        employees.splice(index, 1);
+        localStorage.setItem("employees", JSON.stringify(employees));
+        location.reload();
+    }
+}
+</script>
+
+</body>
+</html>

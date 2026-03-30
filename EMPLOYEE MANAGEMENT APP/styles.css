@@ -1,0 +1,80 @@
+body {
+    font-family: Arial;
+    margin: 0;
+    background: #f4f6f8;
+    background-image: url("images/kabu.jpg");
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: center;      
+       
+    
+}
+
+/* NAVBAR */
+nav {
+    background: #1e3a5f;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 15px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+/* CONTAINER */
+.container {
+    padding: 20px;
+}
+
+/* CARD */
+.card {
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+/* FORM */
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+}
+
+form input {
+    margin: 8px 0;
+    padding: 10px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px;
+    background: #1e3a5f;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
